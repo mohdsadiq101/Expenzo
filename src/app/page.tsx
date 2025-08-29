@@ -1,103 +1,167 @@
-import Image from "next/image";
+"use client";
+import { useEffect, useState } from "react";
+
+interface Transaction {
+  _id: string;
+  title: string;
+  amount: number;
+  category: string; // "income" | "expense"
+}
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [title, setTitle] = useState("");
+  const [amount, setAmount] = useState<number | "">("");
+  const [category, setCategory] = useState("income");
+  const [type, setType] = useState<"income" | "expense">("expense");
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  // Fetch all transactions
+  const fetchTransactions = async () => {
+    const res = await fetch("/api/transactions");
+    const data = await res.json();
+    setTransactions(data);
+  };
+
+  useEffect(() => {
+    fetchTransactions();
+  }, []);
+
+  // Add new transaction
+  const addTransaction = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  const res = await fetch("/api/transactions", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      title,
+      amount,  // string, but API converts to number
+      category,
+      type,
+    }),
+  });
+
+  if (!res.ok) {
+    const error = await res.json();
+    console.error("Error adding transaction:", error.error);
+    return;
+  }
+
+  const data = await res.json();
+  setTransactions([data, ...transactions]);
+  setTitle("");
+  setAmount("");
+  setCategory("");
+  setType("expense");
+};
+
+
+  // Delete a transaction
+  const deleteTransaction = async (id: string) => {
+    await fetch(`/api/transactions/${id}`, { method: "DELETE" });
+    fetchTransactions();
+  };
+
+  // Calculate balances
+  const income = transactions
+    .filter((t) => t.category === "income")
+    .reduce((acc, t) => acc + t.amount, 0);
+
+  const expense = transactions
+    .filter((t) => t.category === "expense")
+    .reduce((acc, t) => acc + t.amount, 0);
+
+  const balance = income - expense;
+
+  return (
+    <main className="min-h-screen p-6 bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100">
+      <h1 className="text-5xl font-bold mb-8 text-center text-indigo-700 drop-shadow">
+        Expenzo
+      </h1>
+
+      {/* Balance Summary */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
+        <div className="p-6 bg-white rounded-2xl shadow-lg text-center">
+          <h2 className="text-lg font-semibold text-gray-600">Balance</h2>
+          <p className="text-2xl font-bold text-indigo-700">₹{balance}</p>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+        <div className="p-6 bg-white rounded-2xl shadow-lg text-center">
+          <h2 className="text-lg font-semibold text-gray-600">Income</h2>
+          <p className="text-2xl font-bold text-green-600">₹{income}</p>
+        </div>
+        <div className="p-6 bg-white rounded-2xl shadow-lg text-center">
+          <h2 className="text-lg font-semibold text-gray-600">Expense</h2>
+          <p className="text-2xl font-bold text-red-600">₹{expense}</p>
+        </div>
+      </div>
+
+      {/* Add Transaction Form */}
+<form
+  onSubmit={addTransaction}
+  className="mb-8 p-6 bg-white rounded-2xl shadow-lg space-y-4 max-w-lg mx-auto"
+>
+  <input
+    type="text"
+    placeholder="Title"
+    value={title}
+    onChange={(e) => setTitle(e.target.value)}
+    className="w-full p-3 border border-gray-600 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+  />
+  <input
+    type="number"
+    placeholder="Amount"
+    value={amount}
+    onChange={(e) => setAmount(Number(e.target.value))}
+    className="w-full p-3 border border-gray-600 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+  />
+  <select
+    value={category}
+    onChange={(e) => setCategory(e.target.value)}
+    aria-placeholder="Select Category"
+    className="w-full p-3 border border-gray-600 rounded-lg text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+  >
+    <option value="" disabled>Select Category</option>
+    <option value="income">Income</option>
+    <option value="expense">Expense</option>
+  </select>
+  <button
+    type="submit"
+    className="w-full p-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition"
+  >
+    Add Transaction
+  </button>
+</form>
+
+
+      {/* Transactions List */}
+      <div className="p-6 bg-white rounded-2xl shadow-lg max-w-2xl mx-auto">
+        <h2 className="text-2xl font-bold mb-4 text-gray-700">Transactions</h2>
+        <ul className="space-y-3">
+          {transactions.map((tx) => (
+            <li
+              key={tx._id}
+              className="flex justify-between items-center p-4 border rounded-xl shadow-sm bg-gray-50 hover:bg-gray-100 transition"
+            >
+              <div>
+                <p className="font-medium text-gray-700">{tx.title}</p>
+                <p
+                  className={`text-lg font-semibold ${
+                    tx.category === "expense" ? "text-red-500" : "text-green-600"
+                  }`}
+                >
+                  ₹{Math.abs(tx.amount)}
+                </p>
+              </div>
+              <button
+                onClick={() => deleteTransaction(tx._id)}
+                className="text-red-500 hover:text-red-700 text-lg font-bold"
+              >
+                ✕
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </main>
   );
 }
