@@ -58,10 +58,10 @@ export function ProfileSettingsModal() {
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-[400px] rounded-2xl p-6">
+      <DialogContent className="sm:max-w-[400px] rounded-2xl p-6 border border-gray-300">
         {/* Header */}
         <DialogHeader className="flex flex-row items-center justify-between">
-          <DialogTitle className="text-lg font-semibold">
+          <DialogTitle className="text-xl font-bold">
             Profile Settings
           </DialogTitle>
           <button
@@ -79,7 +79,7 @@ export function ProfileSettingsModal() {
               className="relative cursor-pointer"
               onClick={() => fileInputRef.current?.click()}
             >
-              <Avatar className="h-20 w-20">
+              <Avatar className="h-20 w-20 border-3 border-gray-400">
                 <AvatarImage src={profileImage} alt="Profile" />
                 <AvatarFallback>
                   {name ? name[0].toUpperCase() : "U"}
@@ -87,7 +87,7 @@ export function ProfileSettingsModal() {
               </Avatar>
 
               {/* Edit Icon */}
-              <div className="absolute bottom-0 right-0 bg-white rounded-full p-1 shadow-md">
+              <div className="absolute bottom-0 right-0 border-1 border-gray-300 bg-white rounded-full p-1 shadow-md hover:bg-gray-200">
                 <Pencil className="h-4 w-4 text-gray-600" />
               </div>
 

@@ -17,7 +17,7 @@ export function BottomNav() {
   return (
     <>
       {/* Navbar */}
-      <nav className="fixed bottom-0 left-0 right-0 h-16 rounded-2xl bg-white border-t border-gray-400 flex justify-around items-center max-w-md mx-auto">
+      <nav className="fixed bottom-0 left-0 right-0 h-16 rounded-2xl bg-slate-200 border-gray-100 flex justify-around items-center max-w-md mx-auto">
         {links.map(({ href, icon: Icon }) => {
           const isActive = pathname === href;
           return (

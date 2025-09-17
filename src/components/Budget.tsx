@@ -7,7 +7,7 @@ import { useTransactions } from "@/context/TransactionContext";
 
 export function Budget() {
   const { transactions } = useTransactions();
-  const monthlyBudget = 20000.00; // A fixed budget for now (example value in INR)
+  const monthlyBudget = 10000.00; // A fixed budget for now (example value in INR)
 
   // Get current month and year to filter expenses
   const currentMonth = new Date().getMonth();
@@ -28,7 +28,7 @@ export function Budget() {
   });
 
   return (
-    <Card className="mb-6 bg-teal-500 text-white shadow-xl">
+    <Card className="mb-6 border border-teal-500 bg-teal-500 text-white shadow-xl">
       <CardContent>
         <p className="text-lg font-bold mb-1">Monthly Budget</p>
         <Progress value={percentageUsed} className="mb-2 h-3 bg-teal-300 [&>*]:bg-white" />

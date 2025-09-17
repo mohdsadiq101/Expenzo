@@ -31,7 +31,7 @@ export function Header() {
           )}
         </Avatar>
 
-        <ProfileSettingsModal /> {/* <-- Settings button */}
+        <ProfileSettingsModal /> 
       </div>
     </header>
   );
