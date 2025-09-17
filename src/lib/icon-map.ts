@@ -1,5 +1,17 @@
 // src/lib/icon-map.ts
-import { Banknote, Home, LucideIcon, ShoppingBasket } from "lucide-react";
+import {
+     Banknote, 
+     Home, 
+     LucideIcon, 
+     ShoppingBasket, 
+     Bike, 
+     ReceiptText, 
+     UtensilsCrossed,
+     Shapes,
+     HeartPulse,
+     Ticket,
+     Shirt
+    } from "lucide-react";
 
 export const getCategoryIcon = (category: string): LucideIcon => {
   switch (category.toLowerCase()) {
@@ -9,8 +21,19 @@ export const getCategoryIcon = (category: string): LucideIcon => {
       return ShoppingBasket;
     case 'rent':
       return Home;
-    // You can add more cases here for other categories
+    case 'transport':
+      return Bike;
+    case 'utilities':
+      return ReceiptText;
+    case 'food & beverages':
+      return UtensilsCrossed;
+    case 'healthcare': // Renamed from Medical
+      return HeartPulse;
+    case 'entertainment':
+      return Ticket;
+    case 'clothing':
+      return Shirt;
     default:
-      return Banknote; // A fallback icon
+      return Banknote;
   }
 };

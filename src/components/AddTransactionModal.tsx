@@ -55,7 +55,17 @@ export function AddTransactionModal() {
   };
 
   const categories = {
-    expense: ["Grocery Store", "Rent", "Utilities", "Transport"],
+    expense: [
+      "Grocery Store",
+      "Rent",
+      "Utilities",
+      "Transport",
+      "Food & Beverages",
+      "Entertainment",
+      "Healthcare",
+      "Clothing",
+      "Others"
+    ],
     income: ["Salary", "Freelance", "Bonus"],
   };
 

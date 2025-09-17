@@ -22,7 +22,7 @@ export function BottomNav() {
           const isActive = pathname === href;
           return (
             <Link key={href} href={href}>
-              <Icon className={`h-7 w-7 ${isActive ? 'text-green-500' : 'text-gray-400'}`} />
+              <Icon className={`h-7 w-7 ${isActive ? 'text-green-400' : 'text-gray-400 hover:text-gray-600'}`} />
             </Link>
           );
         })}

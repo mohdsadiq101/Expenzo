@@ -21,11 +21,16 @@ export default function AnalyticsPage() { // Renamed from StatsPage
   const [timeframe, setTimeframe] = useState<'week' | 'month' | 'year'>('week');
 
   const categoryColors: { [key: string]: string } = {
-    'Utilities': '#3b82f6',
-    'Transport': '#22c55e',
-    'Rent': '#f97316',
-    'Grocery Store': '#ef4444',
-  };
+  'Utilities': '#3b82f6',        // Blue
+  'Transport': '#22c55e',        // Green
+  'Rent': '#f97316',             // Orange
+  'Grocery Store': '#ef4444',    // Red
+  'Food & Beverages': '#a855f7', // Purple
+  'Clothing': '#ec4899',          // Pink
+  'Healthcare': '#14b8a6',       // Teal
+  'Entertainment': '#f59e0b',    // Amber
+  'Others': '#64748b',           // Slate
+};
 
   // --- 2. UPDATED LOGIC to handle Week, Month, and Year ---
   const analysisData = useMemo(() => {

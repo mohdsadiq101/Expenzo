@@ -22,10 +22,10 @@ export function Balance() {
   });
 
   return (
-    <Card className="mb-6 border-1 border-gray-200 shadow-md">
+    <Card className="mb-6 bg-gray-700 border-0 shadow-xl">
      <CardContent className="pt-0 pb-0">
-      <p className="text-md font-semibold text-gray-600 mb-1">Current Balance</p>
-      <div className="text-3xl font-bold text-gray-700 text-shadow-md">
+      <p className="text-md font-semibold text-gray-300 mb-1">Current Balance</p>
+      <div className="text-3xl font-bold text-white">
         {formatter.format(balance)}
       </div>
      </CardContent>
