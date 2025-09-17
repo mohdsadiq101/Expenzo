@@ -67,10 +67,10 @@ export function AddTransactionModal() {
   </Button>
 </DialogTrigger>
 
-      <DialogContent className="sm:max-w-[400px] rounded-2xl p-6">
+      <DialogContent className="sm:max-w-[400px] rounded-2xl p-6 border-0">
         {/* Header */}
         <DialogHeader className="flex flex-row items-center justify-between">
-          <DialogTitle className="text-lg font-semibold">
+          <DialogTitle className="text-lg font-bold">
             Add Transaction
           </DialogTitle>
           <button
@@ -86,7 +86,7 @@ export function AddTransactionModal() {
           <div className="flex w-full rounded-full bg-gray-100 p-1">
             <button
               onClick={() => setType("expense")}
-              className={`flex-1 rounded-full py-2 text-sm font-medium ${
+              className={`flex-1 rounded-full py-2 text-sm font-semibold ${
                 type === "expense"
                   ? "bg-teal-500 text-white"
                   : "text-gray-600 hover:bg-gray-200"
@@ -108,20 +108,20 @@ export function AddTransactionModal() {
 
           {/* Amount input */}
           <div>
-            <label className="text-sm font-medium">Amount</label>
+            <label className="text-md font-medium">Amount</label>
             <Input
               id="amount"
               type="number"
               placeholder="₹0.00"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
-              className="mt-1 border-b-2 font-medium text-lg"
+              className="mt-1 border-b-2 font-medium text-md"
             />
           </div>
 
           {/* Category select */}
           <div>
-            <label className="text-sm font-medium">Category</label>
+            <label className="text-md font-medium">Category</label>
             <Select onValueChange={setCategory} value={category}>
               <SelectTrigger className="mt-1">
                 <SelectValue placeholder="Select category" />
@@ -138,7 +138,7 @@ export function AddTransactionModal() {
 
           {/* Description input */}
           <div>
-            <label className="text-sm font-medium">
+            <label className="text-md font-medium">
               Description (optional)
             </label>
             <Input

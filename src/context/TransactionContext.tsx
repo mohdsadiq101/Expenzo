@@ -4,41 +4,46 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { Transaction } from '@/types';
 
-// Sample data to get started
-const sampleTransactions: Transaction[] = [
-  { id: '1', type: 'income', amount: 12500.00, category: 'Salary', date: '2025-03-12' },
-  { id: '2', type: 'expense', amount: 504.90, category: 'Grocery Store', date: '2025-03-10' },
-  { id: '3', type: 'expense', amount: 1005.00, category: 'Rent', date: '2025-03-05' },
-];
+// Let's start with an empty array now that the app is functional
+const initialTransactions: Transaction[] = [];
 
 interface TransactionContextType {
   transactions: Transaction[];
   addTransaction: (transaction: Omit<Transaction, 'id'>) => void;
-  deleteTransaction?: (id: string) => void; // Optional delete function
+  deleteTransaction: (id: string) => void;
+  budget: number; // <-- NEW: Add budget to our context type
+  setBudget: (amount: number) => void; // <-- NEW: Add a function to update it
 }
 
 const TransactionContext = createContext<TransactionContextType | undefined>(undefined);
 
 export const TransactionProvider = ({ children }: { children: ReactNode }) => {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [transactions, setTransactions] = useState<Transaction[]>(initialTransactions);
+  const [budget, setBudget] = useState<number>(10000); // <-- NEW: State for budget, using your default
 
+  // Effect for loading data from localStorage on initial render
   useEffect(() => {
-    // On initial load, try to get transactions from localStorage
     const storedTransactions = localStorage.getItem('transactions');
     if (storedTransactions) {
       setTransactions(JSON.parse(storedTransactions));
-    } else {
-      // If nothing is stored, use the sample data
-      setTransactions(sampleTransactions);
+    }
+    // NEW: Load budget from localStorage
+    const storedBudget = localStorage.getItem('budget');
+    if (storedBudget) {
+      setBudget(JSON.parse(storedBudget));
     }
   }, []);
 
+  // Effect for saving data to localStorage whenever it changes
   useEffect(() => {
-    // When transactions change, save them to localStorage
-    if (transactions.length > 0) { // Only save if there are transactions
+    // Only run this effect after the initial load to prevent overwriting
+    if (transactions.length > 0 || localStorage.getItem('transactions')) {
       localStorage.setItem('transactions', JSON.stringify(transactions));
     }
-  }, [transactions]);
+    if (budget !== 10000 || localStorage.getItem('budget')) {
+      localStorage.setItem('budget', JSON.stringify(budget)); // <-- NEW: Save budget on change
+    }
+  }, [transactions, budget]);
 
   const addTransaction = (transaction: Omit<Transaction, 'id'>) => {
     const newTransaction = { ...transaction, id: crypto.randomUUID(), date: new Date().toISOString().split('T')[0] };
@@ -49,8 +54,13 @@ export const TransactionProvider = ({ children }: { children: ReactNode }) => {
     setTransactions(prev => prev.filter(transaction => transaction.id !== id));
   };
 
+  // The setBudget function is just a wrapper around the state setter
+  const handleSetBudget = (amount: number) => {
+    setBudget(amount);
+  };
+
   return (
-    <TransactionContext.Provider value={{ transactions, addTransaction, deleteTransaction }}>
+    <TransactionContext.Provider value={{ transactions, addTransaction, deleteTransaction, budget, setBudget: handleSetBudget }}>
       {children}
     </TransactionContext.Provider>
   );
