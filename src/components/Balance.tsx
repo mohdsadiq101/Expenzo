@@ -25,7 +25,7 @@ export function Balance() {
     <Card className="mb-6 border-1 border-gray-200 shadow-md">
      <CardContent className="pt-0 pb-0">
       <p className="text-md font-semibold text-gray-600 mb-1">Current Balance</p>
-      <div className="text-3xl font-bold text-teal-600 text-shadow-sm text-">
+      <div className="text-3xl font-bold text-gray-700 text-shadow-md">
         {formatter.format(balance)}
       </div>
      </CardContent>
