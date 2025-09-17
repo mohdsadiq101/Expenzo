@@ -62,7 +62,7 @@ export function AddTransactionModal() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-  <Button className="fixed bottom-6 left-1/2 -translate-x-1/2 h-16 w-16 rounded-full bg-teal-500 hover:bg-teal-600 shadow-lg">
+  <Button className="fixed bottom-6 left-1/2 -translate-x-1/2 h-16 w-16 cursor-pointer rounded-full bg-teal-500 hover:bg-teal-600 shadow-lg">
     <Plus className="h-8 w-8 text-white size-2xl" />
   </Button>
 </DialogTrigger>

@@ -47,7 +47,7 @@ export function Budget() {
         <div className="flex justify-between items-center mb-1">
           <p className="text-lg font-bold">Monthly Budget</p>
           {!isEditing && (
-            <Button variant="ghost" size="icon" className="h-8 w-8 text-white hover:bg-teal-600 hover:text-white" onClick={() => setIsEditing(true)}>
+            <Button variant="ghost" size="icon" className="h-8 w-8 cursor-pointer text-white hover:bg-teal-600 hover:text-white" onClick={() => setIsEditing(true)}>
               <Pencil className="h-4 w-4" />
             </Button>
           )}

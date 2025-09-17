@@ -37,7 +37,7 @@ export function TransactionItem({ transaction }: { transaction: Transaction }) {
         </div>
         <button
           onClick={() => deleteTransaction?.(transaction.id)}
-          className="text-gray-400 ml-2 hover:text-red-400"
+          className="cursor-pointer text-gray-400 ml-2 hover:text-red-400"
         >
           <Trash2 className="h-4 w-4" />
         </button>

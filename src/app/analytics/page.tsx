@@ -105,7 +105,7 @@ export default function AnalyticsPage() { // Renamed from StatsPage
       <div className="flex w-full rounded-full bg-gray-100 p-1 mb-6">
         <button
           onClick={() => setTimeframe('week')}
-          className={`flex-1 rounded-full py-2 text-sm font-medium transition-colors ${
+          className={`flex-1 cursor-pointer rounded-full py-2 text-sm font-medium transition-colors ${
             timeframe === 'week' ? "bg-teal-500 text-white shadow" : "text-gray-600 hover:bg-gray-200"
           }`}
         >
@@ -113,7 +113,7 @@ export default function AnalyticsPage() { // Renamed from StatsPage
         </button>
         <button
           onClick={() => setTimeframe('month')}
-          className={`flex-1 rounded-full py-2 text-sm font-medium transition-colors ${
+          className={`flex-1 cursor-pointer rounded-full py-2 text-sm font-medium transition-colors ${
             timeframe === 'month' ? "bg-teal-500 text-white shadow" : "text-gray-600 hover:bg-gray-200"
           }`}
         >
@@ -121,7 +121,7 @@ export default function AnalyticsPage() { // Renamed from StatsPage
         </button>
         <button
           onClick={() => setTimeframe('year')}
-          className={`flex-1 rounded-full py-2 text-sm font-medium transition-colors ${
+          className={`flex-1 cursor-pointer rounded-full py-2 text-sm font-medium transition-colors ${
             timeframe === 'year' ? "bg-teal-500 text-white shadow" : "text-gray-600 hover:bg-gray-200"
           }`}
         >
