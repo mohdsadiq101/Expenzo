@@ -27,7 +27,7 @@ export const getCategoryIcon = (category: string): LucideIcon => {
       return ReceiptText;
     case 'food & beverages':
       return UtensilsCrossed;
-    case 'healthcare': // Renamed from Medical
+    case 'healthcare':
       return HeartPulse;
     case 'entertainment':
       return Ticket;
